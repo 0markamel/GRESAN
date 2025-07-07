@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gresan - الصفحة الرئيسية</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+    body {
+      background: #ffffff;
+      color: #333;
+      overflow-x: hidden;
+    }
+    header {
+      background-color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .logo img {
+      height: 60px;
+    }
+    nav {
+      display: flex;
+      gap: 1rem;
+    }
+    nav a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #0056b3;
+    }
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      color: #007bff;
+      background: none;
+      border: none;
+    }
+
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 5rem 1rem 3rem;
+      background-color: #fff;
+    }
+    .hero-logo-bg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.08;
+      z-index: 0;
+      animation: floatLogo 10s infinite alternate ease-in-out;
+    }
+    .hero-logo-bg img {
+      width: 95vw;
+      max-width: 800px;
+    }
+    @keyframes floatLogo {
+      0% { transform: translate(-50%, -50%); }
+      100% { transform: translate(-48%, -52%); }
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    .hero-content h1 {
+      font-size: 2.2rem;
+      color: #0056b3;
+      margin-bottom: 1rem;
+    }
+    .hero-content p {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero-content button {
+      background: linear-gradient(90deg, #007bff, #0056b3);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .section {
+      padding: 2rem 1rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .section h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: #0056b3;
+    }
+    .service-list, .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .service-item, .price-card {
+      background: #f9f9f9;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    .service-item i {
+      font-size: 2rem;
+      color: #007bff;
+      margin-bottom: 0.5rem;
+    }
+    .price-card h3 {
+      color: #007bff;
+      margin-bottom: 0.5rem;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        background: #fff;
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        border-radius: 8px;
+        padding: 1rem;
+      }
+      nav.show {
+        display: flex;
+      }
+      .menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="GRESAN--blue.png" alt="Gresan Logo">
+  </div>
+  <button class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+  <nav id="navLinks">
+    <a href="index.html">الرئيسية</a>
+    <a href="booking.html">الحجز</a>
+    <a href="service.html">الخدمات</a>
+    <a href="about.html">من نحن</a>
+    <a href="contact.html">تواصل معنا</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-logo-bg">
+    <img src="GRESAN--black.png" alt="Gresan Background Logo">
+  </div>
+  <div class="hero-content animate__animated animate__fadeInUp">
+    <h1>مرحبًا بك في Gresan</h1>
+    <p>مساحتك المثالية لعقد الاجتماعات، تنظيم الفعاليات، واستوديوهات التصوير</p>
+    <button onclick="window.location.href='booking.html'">احجز الآن</button>
+  </div>
+</section>
+
+<section class="section" data-aos="fade-up">
+  <h2>خدماتنا</h2>
+  <div class="service-list">
+    <div class="service-item"><i class="fas fa-bullhorn"></i><div>التسويق والإعلانات</div></div>
+    <div class="service-item"><i class="fas fa-video"></i><div>مونتاج وإنتاج فيديو</div></div>
+    <div class="service-item"><i class="fas fa-briefcase"></i><div>توظيف واستشارات</div></div>
+    <div class="service-item"><i class="fas fa-users"></i><div>تأجير قاعات اجتماعات</div></div>
+    <div class="service-item"><i class="fas fa-camera"></i><div>استوديو تصوير احترافي</div></div>
+  </div>
+</section>
+
+<section class="section" data-aos="fade-up">
+  <h2>قائمة الأسعار</h2>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <h3>⚪ المساحات المشتركة</h3>
+      <p>الساعة: 15 جنيه<br>ساعتان: 25 جنيه<br>اليوم الكامل: 40 جنيه</p>
+    </div>
+    <div class="price-card">
+      <h3>⚪ اشتراكات الشيرد</h3>
+      <p>يومي: 50 جنيه<br>أسبوعي: 250 جنيه<br>شهري: 800 جنيه</p>
+    </div>
+    <div class="price-card">
+      <h3>⚪ القاعات الخاصة</h3>
+      <p>روم روف: 150 - 180 جنيه<br>الروف: 250 - 300 جنيه<br>روم كورسات: 120 جنيه<br>روم استوديو: 100 جنيه</p>
+    </div>
+    <div class="price-card">
+      <h3>⚪ اشتراكات شهرية</h3>
+      <p>أسبوعي: 200 جنيه<br>شهري: 600 جنيه</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 Gresan. جميع الحقوق محفوظة.<br>
+  by Omar Kamel | 01153468786
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 1200 });
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+  }
+</script>
+</body>
+</html>
