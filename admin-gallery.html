@@ -1,164 +1,238 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>رفع صور الجاليري - Gresan Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة رفع الصور - Gresan Admin</title>
 
-  <!-- Supabase -->
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-  <!-- Animate.css -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
-  <!-- Font (optional) -->
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-
   <style>
+    * {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif;}
     body {
-      font-family: 'Tajawal', sans-serif;
-      padding: 40px 20px;
-      background: #0e0e0e url('img/GRESAN--black.png') center center fixed;
-      background-size: 400px;
-      color: #fff;
-      min-height: 100vh;
+      background: #ffffff url('img/GRESAN--black.png') center center fixed;
+      background-size: 600px;
+      color: #333;
+      overflow-x: hidden;
     }
-
-    h1 {
-      font-size: 30px;
-      margin-bottom: 20px;
-      color: #f1c40f;
-      text-align: center;
-      animation: fadeInDown 1s;
+    header {
+      background-color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
-
+    .logo img {height: 60px;}
     .container {
-      max-width: 600px;
-      margin: auto;
-      background-color: rgba(255, 255, 255, 0.03);
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
-      animation: fadeInUp 1s;
+      max-width: 1000px;
+      margin: 2rem auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
     }
-
+    h1 {
+      text-align: center;
+      color: #0056b3;
+      margin-bottom: 1rem;
+    }
+    .upload-area {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
     input[type="file"], button {
-      width: 100%;
       padding: 12px;
       font-size: 16px;
-      margin-top: 10px;
       border: none;
       border-radius: 10px;
     }
-
-    input[type="file"] {
-      background-color: #fff;
-      color: #000;
-    }
-
-    button {
-      background-color: #f1c40f;
-      color: #000;
+    input[type="file"] { background-color: #fff; color: #000; }
+    button.upload-btn {
+      background: linear-gradient(to left, #007bff, #0056b3);
+      color: white;
       font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s;
     }
-
-    button:hover {
-      background-color: #d4ac0d;
+    button.upload-btn:hover { background: #004a9f; }
+    .message {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      display: none;
     }
-
-    .gallery {
+    .filters {
+      margin-bottom: 1.5rem;
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 30px;
+      gap: 1rem;
+      align-items: center;
     }
-
-    .gallery img {
-      width: 220px;
-      margin: 10px;
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-      animation: zoomIn 1s;
+    .filters input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
     }
-
-    @media (max-width: 600px) {
-      .gallery img {
-        width: 90%;
-      }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
     }
+    .img-card {
+      position: relative;
+      background: #fff;
+      padding: 0.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .img-card img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+    .img-card small {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #666;
+    }
+    .delete-btn {
+      background: rgba(255, 0, 0, 0.85);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .delete-btn:hover { background: red; }
   </style>
 </head>
-<body class="animate__animated animate__fadeIn">
+
+<body>
 
 <script>
-  const pass = prompt("ادخل كلمة السر:");
+  const pass = prompt("أدخل كلمة السر للدخول:");
   if (pass !== "gresan2025") {
     alert("🚫 دخول مرفوض");
     window.location.href = "/";
   }
 </script>
 
-<div class="container">
-  <h1>📤 لوحة تحكم صور الجاليري - GRESAN</h1>
+<header>
+  <div class="logo"><img src="GRESAN--blue.png" alt="Gresan Logo"></div>
+</header>
 
-  <input type="file" id="imageInput" accept="image/*">
-  <button onclick="uploadImage()">رفع الصورة</button>
+<section class="container animate__animated animate__fadeIn" data-aos="fade-up">
+  <h1>📤 لوحة رفع الصور - Gresan</h1>
 
-  <div class="gallery" id="gallery"></div>
-</div>
+  <div class="message" id="messageBox">✅ تم رفع الصورة بنجاح</div>
+
+  <div class="upload-area">
+    <input type="file" id="imageInput" accept="image/*">
+    <button class="upload-btn" onclick="uploadImage()">رفع الصورة</button>
+  </div>
+
+  <div class="filters">
+    <input type="date" id="filterDate">
+    <button onclick="clearFilter()" class="upload-btn" style="padding: 8px 16px;">🧹 مسح الفلتر</button>
+  </div>
+
+  <div id="gallery" class="gallery"></div>
+</section>
 
 <script>
   const SUPABASE_URL = "https://aqqjgljqnihrfsypdocx.supabase.co";
   const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxcWpnbGpxbmlocmZzeXBkb2N4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIwMDMwMjEsImV4cCI6MjA2NzU3OTAyMX0.KOcX7vux8I94abQz-SFWBj3rppNLnM0MnEsEP3Dg7sU";
-
   const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   async function uploadImage() {
     const file = document.getElementById('imageInput').files[0];
-    if (!file) return alert("📎 اختر صورة!");
+    if (!file) return alert("📎 اختر صورة أولاً");
 
     const fileName = `${Date.now()}-${file.name}`;
-
-    const { data, error } = await supabase
-      .storage
-      .from('gallery')
-      .upload(`gallery/${fileName}`, file);
+    const { data, error } = await supabase.storage.from('gallery').upload(`gallery/${fileName}`, file);
 
     if (error) {
       alert("❌ فشل في الرفع: " + error.message);
-      return;
+    } else {
+      showMessage("✅ تم رفع الصورة بنجاح");
+      loadGallery();
     }
+  }
 
-    alert("✅ تم رفع الصورة بنجاح");
-    loadGallery();
+  function showMessage(msg) {
+    const box = document.getElementById("messageBox");
+    box.innerText = msg;
+    box.style.display = "block";
+    setTimeout(() => { box.style.display = "none"; }, 3000);
+  }
+
+  async function deleteImage(fileName) {
+    const confirmDelete = confirm("هل أنت متأكد أنك تريد حذف هذه الصورة؟");
+    if (!confirmDelete) return;
+
+    const { error } = await supabase.storage.from('gallery').remove([`gallery/${fileName}`]);
+    if (error) {
+      alert("❌ فشل في الحذف: " + error.message);
+    } else {
+      alert("🗑️ تم حذف الصورة");
+      loadGallery();
+    }
   }
 
   async function loadGallery() {
     const container = document.getElementById("gallery");
     container.innerHTML = "⏳ جاري تحميل الصور...";
 
-    const { data, error } = await supabase
-      .storage
-      .from('gallery')
-      .list('gallery/', { limit: 100, offset: 0 });
-
+    const { data, error } = await supabase.storage.from('gallery').list('gallery/', { limit: 100 });
     if (error) {
       container.innerHTML = "⚠️ خطأ في تحميل الصور";
       return;
     }
 
+    const filterDate = document.getElementById("filterDate").value;
     container.innerHTML = "";
-    data.forEach(file => {
+    const sorted = data.sort((a, b) => b.created_at.localeCompare(a.created_at));
+
+    sorted.forEach(file => {
+      const fileDate = new Date(file.created_at).toISOString().split("T")[0];
+      if (filterDate && filterDate !== fileDate) return;
+
       const url = `${SUPABASE_URL}/storage/v1/object/public/gallery/${file.name}`;
-      const img = document.createElement("img");
-      img.src = url;
-      container.appendChild(img);
+      const card = document.createElement("div");
+      card.className = "img-card";
+
+      card.innerHTML = `
+        <img src="${url}" alt="image">
+        <small>📅 ${fileDate}</small>
+        <button class="delete-btn" onclick="deleteImage('${file.name}')">🗑️ حذف</button>
+      `;
+      container.appendChild(card);
     });
+  }
+
+  function clearFilter() {
+    document.getElementById("filterDate").value = "";
+    loadGallery();
   }
 
   loadGallery();
 </script>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init({ duration: 1200 });</script>
 
 </body>
 </html>
