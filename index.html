@@ -237,5 +237,29 @@
     document.getElementById('navLinks').classList.toggle('show');
   }
 </script>
+<script>
+  async function logVisit() {
+    try {
+      const ipResponse = await fetch('https://api.ipify.org?format=json');
+      const ipData = await ipResponse.json();
+      const ip = ipData.ip;
+
+      await fetch("https://hckwzsugmtihyfzbyygr.supabase.co/rest/v1/visits", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhja3d6c3VnbXRpaHlmemJ5eWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTk4NTEsImV4cCI6MjA2ODAzNTg1MX0.pWPlohOE24ECqxX7MzE9fzbbLPMQa0foOHbTQGhf3rg",
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhja3d6c3VnbXRpaHlmemJ5eWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTk4NTEsImV4cCI6MjA2ODAzNTg1MX0.pWPlohOE24ECqxX7MzE9fzbbLPMQa0foOHbTQGhf3rg"
+        },
+        body: JSON.stringify({ ip })
+      });
+    } catch (error) {
+      console.error("IP logging error:", error);
+    }
+  }
+
+  logVisit();
+</script>
+
 </body>
 </html>
